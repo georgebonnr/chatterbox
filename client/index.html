@@ -19,15 +19,24 @@
       <a class="logoutButton" href="index.html">Log out</a>
       <h1>Chat-Client</h1>
       <ul class="chatList"></ul>
-      <input type="text" placeholder="Your message here..." autofocus/>
+      <input class="messageInput" type="text" placeholder="Your message here..." autofocus/>
     </div>
 
-    <div class="roomListPanel">
+    <div class="roomListPanel panel">
       <h3>Current Room</h3>
-      <p class="currentRoom"></p>
+      <div class="currentRoom wordwrap"></div>
       </br>
       <h3>Available Rooms</h3>
-      <ul class="roomList"></ul>
+      <ul class="roomList list"></ul>
+      <h3>Create/Join Room</h3>
+      <input class="roomInput" type="text" placeholder="Enter room name."></input>
+    </div>
+
+    <div class="friendListPanel panel">
+      <h3>Friends</h3>
+      <ul class="friendList list"></ul>
+      <h3>Blocked</h3>
+      <ul class="blockList list"></ul>
     </div>
 
   </body>
