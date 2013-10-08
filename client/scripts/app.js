@@ -15,12 +15,19 @@ var getData =  function() {
 };
 
 var render = function (data) {
-  data = _(data).filter(function (datum){
-    return (datum.roomname === window.roomname);
+  window.rooms = {};
+  _(data).each(function (datum) {
+    if (rooms[datum.roomname] === undefined) {
+      window.rooms[datum.roomname] = [datum];
+    } else {
+      window.rooms[datum.roomname].push(datum);
+    }
   });
+
+  var currentRoom = rooms[window.currentRoom];
   $('.chatList').html('');
-  for (var i = Math.max(0,data.length - window.pageSize); i < data.length; i++) {
-    var datum = data[i];
+  for (var i = Math.max(0,currentRoom.length - window.pageSize); i < currentRoom.length; i++) {
+    var datum = currentRoom[i];
     var username = $("<span class='username'></span>");
     username.text(datum.username + ": ");
     var msgtext = $("<span class='msgtext'></span>");
@@ -30,7 +37,20 @@ var render = function (data) {
     newMsg.append(msgtext);
     $('.chatList').append(newMsg);
   }
-  setTimeout(getData,100);
+
+  $('.currentRoom').text(window.currentRoom);
+  var sortedRooms =  _(window.rooms).sortBy(function (room) {
+    return room.length;
+  }).reverse();
+  console.log(sortedRooms);
+  $('.roomList').html('');
+  for (var j = 0; j < sortedRooms.length; j++) {
+    var room = $("<li class='room'></li>");
+    room.text(sortedRooms[j][0].roomname);
+    $('.roomList').append(room);
+  }
+
+  //setTimeout(getData,100);
 };
 
 var sendData = function(data) {
@@ -53,7 +73,8 @@ $(document).on("ready", function() {
 
   // Global variables.
   window.pageSize = 15;
-  window.roomname = "lobby";
+  window.roomListSize = 5;
+  window.currentRoom = "lobby";
 
   // Assign all parameters in the URL to global variables.
   var query = window.location.search.substring(1);
@@ -70,7 +91,7 @@ $(document).on("ready", function() {
       var message = {
         username: window.username,
         text: $(this).val(),
-        roomname: window.roomname
+        roomname: window.currentRoom
       };
       sendData(message);
       $(this).val('');

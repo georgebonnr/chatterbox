@@ -64,6 +64,25 @@ body {
     width:380px;
 }
 
+.roomListPanel {
+    position: fixed;
+    top:128px;
+    left:-10px;
+    padding: 20px 20px 20px 30px;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+}
+
+.roomList {
+    padding: 0;
+    margin: 0;
+}
+
+.room {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
 
 
 
