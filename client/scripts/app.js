@@ -39,12 +39,11 @@ var render = function (data) {
       var newMsg = $("<li class='msg'></li>");
       var UN = username.text().slice(0, username.text().length - 2);
       if (window.friends[UN]) {
-        console.log(window.friends[UN]);
         newMsg.addClass("friendMessage");
       }
       newMsg.append(username);
       newMsg.append(msgtext);
-      $('.chatList').prepend(newMsg);
+      if (!window.blocked[UN]) { $('.chatList').prepend(newMsg); }
     }
   } else {
     $('.chatList').html("<i>No messages here yet.</i>");
@@ -93,6 +92,7 @@ $(document).on("ready", function() {
   window.roomListSize = 5;
   window.currentRoom = "lobby";
   window.friends = {};
+  window.blocked = {};
 
   // Assign all parameters in the URL to global variables.
   var query = window.location.search.substring(1);
@@ -123,12 +123,29 @@ $(document).on("ready", function() {
     $(this).remove();
   });
 
+  $(document).on('click', '.blocked', function(){
+    var name = $(this).text();
+    delete window.blocked[name];
+    $(this).remove();
+  });
+
   $('.roomInput').keyup(function(e) {
     if(e.keyCode == 13) {
       if ($(this).val()) {
         window.currentRoom = $(this).val();
         $(this).val('');
       }
+    }
+  });
+
+  $('.blockInput').keyup(function(e) {
+    if(e.keyCode == 13) {
+      var name = $(this).val();
+      if (!window.blocked[name]) {
+        $(".blockList").append("<li class='blocked'>" + name + "</li>");
+        window.blocked[name] = true;
+      }
+      $(this).val('');
     }
   });
 
