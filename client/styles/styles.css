@@ -2,6 +2,22 @@ body {
     background: #eee;
     text-align: center;
     padding: 0 25px;
+    font-family: times;
+    font-size:14px;
+}
+
+.logoutButton {
+    color:white;
+    float:right;
+    text-decoration: none;
+    border: 1px solid grey;
+    padding:10px;
+    background-color: #F00;
+    border-radius: 10px;
+}
+
+.logoutButton:hover {
+    background-color: #F55;
 }
 
 .main {
